@@ -24,10 +24,11 @@ const getProductsList = async (event, context) => {
 };
 
 const getProductById = async (event, context) => {
+  const {productId} = event.pathParameters;
   try {
     const products = await getProducts();
     const product = products.find(
-      (product) => product.id === Number(event.pathParameters.id)
+      (product) => product.id === Number(productId)
     );
     if (!product) {
       return {
