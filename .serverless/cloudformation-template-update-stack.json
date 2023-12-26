@@ -168,10 +168,10 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/product-service/dev/1703272663711-2023-12-22T19:17:43.711Z/product-service.zip"
+          "S3Key": "serverless/product-service/dev/1703614935095-2023-12-26T18:22:15.095Z/product-service.zip"
         },
         "Handler": "handler.getProductsList",
-        "Runtime": "nodejs14.x",
+        "Runtime": "nodejs18.x",
         "FunctionName": "product-service-dev-get-products",
         "MemorySize": 1024,
         "Timeout": 6,
@@ -193,10 +193,10 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/product-service/dev/1703272663711-2023-12-22T19:17:43.711Z/product-service.zip"
+          "S3Key": "serverless/product-service/dev/1703614935095-2023-12-26T18:22:15.095Z/product-service.zip"
         },
         "Handler": "handler.getProductById",
-        "Runtime": "nodejs14.x",
+        "Runtime": "nodejs18.x",
         "FunctionName": "product-service-dev-get-product",
         "MemorySize": 1024,
         "Timeout": 6,
@@ -211,24 +211,24 @@
         "GetDashproductLogGroup"
       ]
     },
-    "GetDashproductsLambdaVersionP9N4CCSSvpKyfC7JSWFF5i5TkLfrhDgdj4gx4O6Ons": {
+    "GetDashproductsLambdaVersionE4YbezowI2myUA7QMTEZ9yis45eNbmsLDMbKqs0P3A": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "GetDashproductsLambdaFunction"
         },
-        "CodeSha256": "A5Y3Nk4P6wF2hzP3BJv8PoaDGOyrzGHFron4O443R9A="
+        "CodeSha256": "+jcP10Gqusu/2h1ArBhwRH+eYQrsskWKF/snwZEY0zg="
       }
     },
-    "GetDashproductLambdaVersionVHX7lUlcdTqTjsNqnSUixMeN1VeNykk6CjekQozqlg": {
+    "GetDashproductLambdaVersion0K2ozqcwhA7RB6LlG2KAQVvt6WnsWI6pewyUxTDs": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "GetDashproductLambdaFunction"
         },
-        "CodeSha256": "A5Y3Nk4P6wF2hzP3BJv8PoaDGOyrzGHFron4O443R9A="
+        "CodeSha256": "+jcP10Gqusu/2h1ArBhwRH+eYQrsskWKF/snwZEY0zg="
       }
     },
     "ApiGatewayRestApi": {
@@ -362,7 +362,7 @@
         "GetDashproductLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1703272652658": {
+    "ApiGatewayDeployment1703614923820": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -462,7 +462,7 @@
     "GetDashproductsLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "GetDashproductsLambdaVersionP9N4CCSSvpKyfC7JSWFF5i5TkLfrhDgdj4gx4O6Ons"
+        "Ref": "GetDashproductsLambdaVersionE4YbezowI2myUA7QMTEZ9yis45eNbmsLDMbKqs0P3A"
       },
       "Export": {
         "Name": "sls-product-service-dev-GetDashproductsLambdaFunctionQualifiedArn"
@@ -471,7 +471,7 @@
     "GetDashproductLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "GetDashproductLambdaVersionVHX7lUlcdTqTjsNqnSUixMeN1VeNykk6CjekQozqlg"
+        "Ref": "GetDashproductLambdaVersion0K2ozqcwhA7RB6LlG2KAQVvt6WnsWI6pewyUxTDs"
       },
       "Export": {
         "Name": "sls-product-service-dev-GetDashproductLambdaFunctionQualifiedArn"

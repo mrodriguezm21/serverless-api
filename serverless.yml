@@ -1,8 +1,11 @@
 service: product-service
+frameworkVersion: "3"
 
 provider:
   name: aws
-  runtime: nodejs14.x
+  runtime: nodejs18.x
+  httpApi:
+    cors: true
 
 plugins:
   - serverless-offline
@@ -20,5 +23,3 @@ functions:
       - http:
           path: products/{productId}
           method: GET
-
-

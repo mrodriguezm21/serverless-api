@@ -2,24 +2,26 @@ const { mockProducts } = require("./libs/mockProducts");
 
 const getProducts = () => Promise.resolve(mockProducts);
 
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Credentials': true,
+};
+
+const createResponse = (statusCode, body) => ({
+  statusCode,
+  headers: corsHeaders,
+  body: JSON.stringify(body),
+});
+
 const getProductsList = async (event, context) => {
   try {
     const products = await getProducts();
     if (!products) {
-      return {
-        statusCode: 404,
-        body: JSON.stringify({ error: "Products not found" }),
-      };
+      return createResponse(404, { error: "Products not found" });
     }
-    return {
-      statusCode: 200,
-      body: JSON.stringify(products),
-    };
+    return createResponse(200, products);
   } catch (error) {
-    return {
-      statusCode: 500,
-      body: JSON.stringify(error),
-    };
+    return createResponse(500, error);
   }
 };
 
@@ -31,20 +33,11 @@ const getProductById = async (event, context) => {
       (product) => product.id === Number(productId)
     );
     if (!product) {
-      return {
-        statusCode: 404,
-        body: JSON.stringify({ error: "Product not found" }),
-      };
+      return createResponse(404, { error: "Product not found" });
     }
-    return {
-      statusCode: 200,
-      body: JSON.stringify(product),
-    };
+    return createResponse(200, product);
   } catch (error) {
-    return {
-      statusCode: 500,
-      body: JSON.stringify(error),
-    };
+    return createResponse(500, error);
   }
 };
 
