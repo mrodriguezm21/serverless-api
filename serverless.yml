@@ -8,8 +8,13 @@ provider:
     role:
       statements:
         - Effect: "Allow"
-          Action: "dynamodb:*"
-          Resource: 
+          Action:
+            - "dynamodb:Scan"
+            - "dynamodb:GetItem"
+            - "dynamodb:PutItem"
+            # - "dynamodb:UpdateItem"
+            # - "dynamodb:DeleteItem"
+          Resource:
             - arn:aws:dynamodb:us-east-1:626567425764:table/products
             - arn:aws:dynamodb:us-east-1:626567425764:table/stock
 
@@ -32,12 +37,19 @@ functions:
       - http:
           path: products/{productId}
           method: GET
+          request:
+            parameters:
+              paths:
+                productId: true
   create-product:
     handler: createProduct/handler.createProduct
     events:
       - http:
           path: products
           method: POST
+          request:
+            schemas:
+              application/json: ${file(schemas/product.schema.json)}
 resources:
   Resources:
     ProductsTable:
@@ -51,8 +63,8 @@ resources:
           - AttributeName: id
             KeyType: HASH
         ProvisionedThroughput:
-            ReadCapacityUnits: 1
-            WriteCapacityUnits: 1
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
     StockTable:
       Type: AWS::DynamoDB::Table
       Properties:
@@ -64,5 +76,5 @@ resources:
           - AttributeName: product_id
             KeyType: HASH
         ProvisionedThroughput:
-            ReadCapacityUnits: 1
-            WriteCapacityUnits: 1
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1

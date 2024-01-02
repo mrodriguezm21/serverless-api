@@ -13,7 +13,9 @@
             {
               "Effect": "Allow",
               "Action": [
-                "dynamodb:*"
+                "dynamodb:Scan",
+                "dynamodb:GetItem",
+                "dynamodb:PutItem"
               ],
               "Resource": [
                 "arn:aws:dynamodb:us-east-1:626567425764:table/products",
@@ -208,7 +210,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/product-service/dev/1703872088677-2023-12-29T17:48:08.677Z/product-service.zip"
+                "S3Key": "serverless/product-service/dev/1704229941669-2024-01-02T21:12:21.669Z/product-service.zip"
               },
               "Handler": "getProducts/handler.getProductsList",
               "Runtime": "nodejs18.x",
@@ -233,7 +235,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/product-service/dev/1703872088677-2023-12-29T17:48:08.677Z/product-service.zip"
+                "S3Key": "serverless/product-service/dev/1704229941669-2024-01-02T21:12:21.669Z/product-service.zip"
               },
               "Handler": "getProductById/handler.getProductById",
               "Runtime": "nodejs18.x",
@@ -258,7 +260,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/product-service/dev/1703872088677-2023-12-29T17:48:08.677Z/product-service.zip"
+                "S3Key": "serverless/product-service/dev/1704229941669-2024-01-02T21:12:21.669Z/product-service.zip"
               },
               "Handler": "createProduct/handler.createProduct",
               "Runtime": "nodejs18.x",
@@ -276,34 +278,34 @@
               "CreateDashproductLogGroup"
             ]
           },
-          "GetDashproductsLambdaVersionpLNnpoXWYHiY5EmX39EVvTn1rx5Omg6p9Fj0AaaAI": {
+          "GetDashproductsLambdaVersionz1mwLNhRFYkxR3eujcVGjwZ2KBj8Zxw5R7PrRUMdw": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "GetDashproductsLambdaFunction"
               },
-              "CodeSha256": "mslCQnx0vz07dGDIu96CnetenZdjbiai6ISUL4C/jTM="
+              "CodeSha256": "BJrMdSbBkD0dxamOJ47q98HLtX2Ib1FspqBf6eOp9A4="
             }
           },
-          "GetDashproductLambdaVersioncJ5nobp728VLsCkJaYYena4aiWwlTYw0KDHTdKE2Nc": {
+          "GetDashproductLambdaVersionbZeInHdfnWyW9Ru0zPk0Y91HNyXJhn8JK1IQU8GjdyQ": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "GetDashproductLambdaFunction"
               },
-              "CodeSha256": "mslCQnx0vz07dGDIu96CnetenZdjbiai6ISUL4C/jTM="
+              "CodeSha256": "BJrMdSbBkD0dxamOJ47q98HLtX2Ib1FspqBf6eOp9A4="
             }
           },
-          "CreateDashproductLambdaVersionmrBZK3ctT29LR5W3N5Edm1bnif0ajXc0v8zy82BY": {
+          "CreateDashproductLambdaVersionzKzcuXdqt1ICeODDaeds9GV4KN13IeStvauDWORBUw": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "CreateDashproductLambdaFunction"
               },
-              "CodeSha256": "mslCQnx0vz07dGDIu96CnetenZdjbiai6ISUL4C/jTM="
+              "CodeSha256": "BJrMdSbBkD0dxamOJ47q98HLtX2Ib1FspqBf6eOp9A4="
             }
           },
           "ApiGatewayRestApi": {
@@ -395,7 +397,9 @@
             "Type": "AWS::ApiGateway::Method",
             "Properties": {
               "HttpMethod": "GET",
-              "RequestParameters": {},
+              "RequestParameters": {
+                "method.request.path.productId": true
+              },
               "ResourceId": {
                 "Ref": "ApiGatewayResourceProductsProductidVar"
               },
@@ -431,7 +435,10 @@
                   ]
                 }
               },
-              "MethodResponses": []
+              "MethodResponses": [],
+              "RequestValidatorId": {
+                "Ref": "ApiGatewayProductserviceRequestValidator"
+              }
             },
             "DependsOn": [
               "GetDashproductLambdaPermissionApiGateway"
@@ -477,13 +484,71 @@
                   ]
                 }
               },
-              "MethodResponses": []
+              "MethodResponses": [],
+              "RequestValidatorId": {
+                "Ref": "ApiGatewayProductserviceRequestValidator"
+              },
+              "RequestModels": {
+                "application/json": {
+                  "Ref": "ApiGatewayMethodProductsPostApplicationJsonModel"
+                }
+              }
             },
             "DependsOn": [
               "CreateDashproductLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1703872077057": {
+          "ApiGatewayProductserviceRequestValidator": {
+            "Type": "AWS::ApiGateway::RequestValidator",
+            "Properties": {
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "ValidateRequestBody": true,
+              "ValidateRequestParameters": true,
+              "Name": "product-service-dev | Validate request body and querystring parameters"
+            }
+          },
+          "ApiGatewayMethodProductsPostApplicationJsonModel": {
+            "Type": "AWS::ApiGateway::Model",
+            "Properties": {
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "ContentType": "application/json",
+              "Schema": {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "title": "Product",
+                "description": "A product in the catalog",
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "description": "The product title",
+                    "type": "string"
+                  },
+                  "description": {
+                    "description": "A short description of the product",
+                    "type": "string"
+                  },
+                  "price": {
+                    "type": "number",
+                    "minimum": 0,
+                    "exclusiveMinimum": true
+                  },
+                  "count": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                },
+                "required": [
+                  "title",
+                  "price",
+                  "count"
+                ]
+              }
+            }
+          },
+          "ApiGatewayDeployment1704229930599": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -665,7 +730,7 @@
           "GetDashproductsLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "GetDashproductsLambdaVersionpLNnpoXWYHiY5EmX39EVvTn1rx5Omg6p9Fj0AaaAI"
+              "Ref": "GetDashproductsLambdaVersionz1mwLNhRFYkxR3eujcVGjwZ2KBj8Zxw5R7PrRUMdw"
             },
             "Export": {
               "Name": "sls-product-service-dev-GetDashproductsLambdaFunctionQualifiedArn"
@@ -674,7 +739,7 @@
           "GetDashproductLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "GetDashproductLambdaVersioncJ5nobp728VLsCkJaYYena4aiWwlTYw0KDHTdKE2Nc"
+              "Ref": "GetDashproductLambdaVersionbZeInHdfnWyW9Ru0zPk0Y91HNyXJhn8JK1IQU8GjdyQ"
             },
             "Export": {
               "Name": "sls-product-service-dev-GetDashproductLambdaFunctionQualifiedArn"
@@ -683,7 +748,7 @@
           "CreateDashproductLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "CreateDashproductLambdaVersionmrBZK3ctT29LR5W3N5Edm1bnif0ajXc0v8zy82BY"
+              "Ref": "CreateDashproductLambdaVersionzKzcuXdqt1ICeODDaeds9GV4KN13IeStvauDWORBUw"
             },
             "Export": {
               "Name": "sls-product-service-dev-CreateDashproductLambdaFunctionQualifiedArn"
@@ -823,7 +888,7 @@
         "timeout": 6,
         "runtime": "nodejs18.x",
         "vpc": {},
-        "versionLogicalId": "GetDashproductsLambdaVersionpLNnpoXWYHiY5EmX39EVvTn1rx5Omg6p9Fj0AaaAI"
+        "versionLogicalId": "GetDashproductsLambdaVersionz1mwLNhRFYkxR3eujcVGjwZ2KBj8Zxw5R7PrRUMdw"
       },
       "get-product": {
         "handler": "getProductById/handler.getProductById",
@@ -832,6 +897,11 @@
             "http": {
               "path": "products/{productId}",
               "method": "get",
+              "request": {
+                "parameters": {
+                  "method.request.path.productId": true
+                }
+              },
               "integration": "AWS_PROXY"
             }
           }
@@ -842,7 +912,7 @@
         "timeout": 6,
         "runtime": "nodejs18.x",
         "vpc": {},
-        "versionLogicalId": "GetDashproductLambdaVersioncJ5nobp728VLsCkJaYYena4aiWwlTYw0KDHTdKE2Nc"
+        "versionLogicalId": "GetDashproductLambdaVersionbZeInHdfnWyW9Ru0zPk0Y91HNyXJhn8JK1IQU8GjdyQ"
       },
       "create-product": {
         "handler": "createProduct/handler.createProduct",
@@ -851,6 +921,13 @@
             "http": {
               "path": "products",
               "method": "post",
+              "request": {
+                "schemas": {
+                  "application/json": {
+                    "$ref": "$[\"service\"][\"provider\"][\"compiledCloudFormationTemplate\"][\"Resources\"][\"ApiGatewayMethodProductsPostApplicationJsonModel\"][\"Properties\"][\"Schema\"]"
+                  }
+                }
+              },
               "integration": "AWS_PROXY"
             }
           }
@@ -861,7 +938,7 @@
         "timeout": 6,
         "runtime": "nodejs18.x",
         "vpc": {},
-        "versionLogicalId": "CreateDashproductLambdaVersionmrBZK3ctT29LR5W3N5Edm1bnif0ajXc0v8zy82BY"
+        "versionLogicalId": "CreateDashproductLambdaVersionzKzcuXdqt1ICeODDaeds9GV4KN13IeStvauDWORBUw"
       }
     },
     "resources": {
@@ -936,7 +1013,7 @@
     "artifact": "C:\\Users\\mario\\OneDrive\\Documents\\Code\\serverless\\hola-mundo\\.serverless\\product-service.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/product-service/dev/1703872088677-2023-12-29T17:48:08.677Z",
+    "artifactDirectoryName": "serverless/product-service/dev/1704229941669-2024-01-02T21:12:21.669Z",
     "artifact": "product-service.zip"
   }
 }
