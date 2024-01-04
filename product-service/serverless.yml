@@ -1,0 +1,80 @@
+service: product-service
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  iam:
+    role:
+      statements:
+        - Effect: "Allow"
+          Action:
+            - "dynamodb:Scan"
+            - "dynamodb:GetItem"
+            - "dynamodb:PutItem"
+            # - "dynamodb:UpdateItem"
+            # - "dynamodb:DeleteItem"
+          Resource:
+            - arn:aws:dynamodb:us-east-1:626567425764:table/products
+            - arn:aws:dynamodb:us-east-1:626567425764:table/stock
+
+  httpApi:
+    cors: true
+
+plugins:
+  - serverless-offline
+
+functions:
+  get-products:
+    handler: getProducts/handler.getProductsList
+    events:
+      - http:
+          path: products
+          method: GET
+  get-product:
+    handler: getProductById/handler.getProductById
+    events:
+      - http:
+          path: products/{productId}
+          method: GET
+          request:
+            parameters:
+              paths:
+                productId: true
+  create-product:
+    handler: createProduct/handler.createProduct
+    events:
+      - http:
+          path: products
+          method: POST
+          request:
+            schemas:
+              application/json: ${file(schemas/product.schema.json)}
+resources:
+  Resources:
+    ProductsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: products
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+    StockTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: stock
+        AttributeDefinitions:
+          - AttributeName: product_id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: product_id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
