@@ -13,6 +13,8 @@ provider:
           Action:
             - "s3:GetObject"
             - "s3:PutObject"
+            - "s3:CopyObject"
+            - "s3:DeleteObject"
           Resource: "arn:aws:s3:::import-service-mjrodriguezm21/*"
 functions:
   importProductsFile:
@@ -25,7 +27,16 @@ functions:
             parameters:
               querystrings:
                 name: true
-
+  importFileParser:
+    handler: importFileParser/handler.importFileParser
+    events:
+      - s3:
+          bucket: import-service-mjrodriguezm21
+          event: s3:ObjectCreated:*
+          existing: true
+          rules:
+            - prefix: uploaded/
+            - suffix: .csv
 resources:
   Resources:
     S3Bucket:

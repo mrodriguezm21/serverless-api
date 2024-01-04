@@ -186,7 +186,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/product-service/dev/1704229941669-2024-01-02T21:12:21.669Z/product-service.zip"
+          "S3Key": "serverless/product-service/dev/1704305392875-2024-01-03T18:09:52.875Z/product-service.zip"
         },
         "Handler": "getProducts/handler.getProductsList",
         "Runtime": "nodejs18.x",
@@ -211,7 +211,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/product-service/dev/1704229941669-2024-01-02T21:12:21.669Z/product-service.zip"
+          "S3Key": "serverless/product-service/dev/1704305392875-2024-01-03T18:09:52.875Z/product-service.zip"
         },
         "Handler": "getProductById/handler.getProductById",
         "Runtime": "nodejs18.x",
@@ -236,7 +236,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/product-service/dev/1704229941669-2024-01-02T21:12:21.669Z/product-service.zip"
+          "S3Key": "serverless/product-service/dev/1704305392875-2024-01-03T18:09:52.875Z/product-service.zip"
         },
         "Handler": "createProduct/handler.createProduct",
         "Runtime": "nodejs18.x",
@@ -254,34 +254,34 @@
         "CreateDashproductLogGroup"
       ]
     },
-    "GetDashproductsLambdaVersionz1mwLNhRFYkxR3eujcVGjwZ2KBj8Zxw5R7PrRUMdw": {
+    "GetDashproductsLambdaVersionxfOKeeEO3nbaHauSHtwgeUMEGPHPDdfV9M9zu0lolE": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "GetDashproductsLambdaFunction"
         },
-        "CodeSha256": "BJrMdSbBkD0dxamOJ47q98HLtX2Ib1FspqBf6eOp9A4="
+        "CodeSha256": "iOp2Py23XTZ3gqlJkUL8B+sZYw82G5JJihNh8QGEg+8="
       }
     },
-    "GetDashproductLambdaVersionbZeInHdfnWyW9Ru0zPk0Y91HNyXJhn8JK1IQU8GjdyQ": {
+    "GetDashproductLambdaVersionIaDeiK8IQtm4GSJuodfhIxuJBoOaEUXs621cMWuf7Io": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "GetDashproductLambdaFunction"
         },
-        "CodeSha256": "BJrMdSbBkD0dxamOJ47q98HLtX2Ib1FspqBf6eOp9A4="
+        "CodeSha256": "iOp2Py23XTZ3gqlJkUL8B+sZYw82G5JJihNh8QGEg+8="
       }
     },
-    "CreateDashproductLambdaVersionzKzcuXdqt1ICeODDaeds9GV4KN13IeStvauDWORBUw": {
+    "CreateDashproductLambdaVersionpz9mAyBgOLaHugsZ133xLCwmEBgxikvOAmKSUqYsw": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "CreateDashproductLambdaFunction"
         },
-        "CodeSha256": "BJrMdSbBkD0dxamOJ47q98HLtX2Ib1FspqBf6eOp9A4="
+        "CodeSha256": "iOp2Py23XTZ3gqlJkUL8B+sZYw82G5JJihNh8QGEg+8="
       }
     },
     "ApiGatewayRestApi": {
@@ -524,7 +524,7 @@
         }
       }
     },
-    "ApiGatewayDeployment1704229930599": {
+    "ApiGatewayDeployment1704305381920": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -706,7 +706,7 @@
     "GetDashproductsLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "GetDashproductsLambdaVersionz1mwLNhRFYkxR3eujcVGjwZ2KBj8Zxw5R7PrRUMdw"
+        "Ref": "GetDashproductsLambdaVersionxfOKeeEO3nbaHauSHtwgeUMEGPHPDdfV9M9zu0lolE"
       },
       "Export": {
         "Name": "sls-product-service-dev-GetDashproductsLambdaFunctionQualifiedArn"
@@ -715,7 +715,7 @@
     "GetDashproductLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "GetDashproductLambdaVersionbZeInHdfnWyW9Ru0zPk0Y91HNyXJhn8JK1IQU8GjdyQ"
+        "Ref": "GetDashproductLambdaVersionIaDeiK8IQtm4GSJuodfhIxuJBoOaEUXs621cMWuf7Io"
       },
       "Export": {
         "Name": "sls-product-service-dev-GetDashproductLambdaFunctionQualifiedArn"
@@ -724,7 +724,7 @@
     "CreateDashproductLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "CreateDashproductLambdaVersionzKzcuXdqt1ICeODDaeds9GV4KN13IeStvauDWORBUw"
+        "Ref": "CreateDashproductLambdaVersionpz9mAyBgOLaHugsZ133xLCwmEBgxikvOAmKSUqYsw"
       },
       "Export": {
         "Name": "sls-product-service-dev-CreateDashproductLambdaFunctionQualifiedArn"
