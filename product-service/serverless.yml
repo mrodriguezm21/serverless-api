@@ -7,6 +7,13 @@ provider:
   iam:
     role:
       statements:
+        - Effect: Allow
+          Action:
+            - "sqs:ReceiveMessage"
+            - "sqs:DeleteMessage"
+            - "sqs:GetQueueAttributes"
+          Resource:
+            - Fn::GetAtt: [catalogItemsQueue, Arn]
         - Effect: "Allow"
           Action:
             - "dynamodb:Scan"
@@ -50,6 +57,15 @@ functions:
           request:
             schemas:
               application/json: ${file(schemas/product.schema.json)}
+  catalogBatchProcess:
+    handler: catalogBatchProcess/handler.catalogBatchProcess
+    events:
+      - sqs:
+          arn:
+            Fn::GetAtt:
+              - catalogItemsQueue
+              - Arn
+          batchSize: 5
 resources:
   Resources:
     ProductsTable:
@@ -78,3 +94,7 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
+    catalogItemsQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: catalogItemsQueue
