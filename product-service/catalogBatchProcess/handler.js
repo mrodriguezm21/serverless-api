@@ -8,6 +8,10 @@ const docClient = DynamoDBDocumentClient.from(client);
 export const catalogBatchProcess = async (event, context) => {
   for (const record of event.Records) {
     const { title, description, price, count } = JSON.parse(record.body);
+    if (!title || !description || !price || !count) {
+      console.error("Invalid record", record.body);
+      continue;
+    }
     const id = uuidv4();
 
     const product = {
