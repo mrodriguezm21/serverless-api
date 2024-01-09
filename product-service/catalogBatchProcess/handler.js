@@ -1,8 +1,10 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { PutCommand, DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
+import { SNSClient, PublishCommand } from "@aws-sdk/client-sns";
 import { v4 as uuidv4 } from "uuid";
 
 const client = new DynamoDBClient({});
+const sns = new SNSClient();
 const docClient = DynamoDBDocumentClient.from(client);
 
 export const catalogBatchProcess = async (event, context) => {
@@ -39,6 +41,14 @@ export const catalogBatchProcess = async (event, context) => {
 
       await docClient.send(command);
       await docClient.send(stockCommand);
+
+      const message = `Product has been created:
+        id: ${id}, title: ${title}, description: ${description}, price: ${price}, count: ${count}`;
+      const publishCommand = new PublishCommand({
+        TopicArn: process.env.SNS_TOPIC_ARN,
+        Message: message,
+      });
+      await sns.send(publishCommand);
     } catch (error) {
       console.error(`Failed to process record ${record.body}`, error);
     }

@@ -4,6 +4,11 @@ frameworkVersion: "3"
 provider:
   name: aws
   runtime: nodejs18.x
+  httpApi:
+    cors: true
+  environment:
+    SNS_TOPIC_ARN:
+      Ref: NewProductTopic
   iam:
     role:
       statements:
@@ -24,9 +29,11 @@ provider:
           Resource:
             - arn:aws:dynamodb:us-east-1:626567425764:table/products
             - arn:aws:dynamodb:us-east-1:626567425764:table/stock
-
-  httpApi:
-    cors: true
+        - Effect: Allow
+          Action:
+            - "sns:Publish"
+          Resource:
+            - !Ref NewProductTopic
 
 plugins:
   - serverless-offline
@@ -98,3 +105,14 @@ resources:
       Type: AWS::SQS::Queue
       Properties:
         QueueName: catalogItemsQueue
+    NewProductTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: createProductTopic
+    EmailSubscription:
+      Type: AWS::SNS::Subscription
+      Properties:
+        Endpoint: mariojosexd@gmail.com
+        Protocol: email
+        TopicArn:
+          Ref: NewProductTopic
