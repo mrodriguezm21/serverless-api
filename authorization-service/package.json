@@ -1,0 +1,9 @@
+{
+  "name": "authorization-service",
+  "type": "module",
+  "version": "1.0.0",
+  "license": "ISC",
+  "devDependencies": {
+    "serverless-dotenv-plugin": "^6.0.0"
+  }
+}
