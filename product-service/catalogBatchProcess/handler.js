@@ -20,7 +20,7 @@ export const catalogBatchProcess = async (event, context) => {
       id,
       title,
       description,
-      price,
+      price: Number(price),
     };
 
     const stock = {
