@@ -27,10 +27,10 @@ functions:
     events:
       - http:
           path: import
+          method: GET
           authorizer:
             name: basicAuthorizer
             arn: arn:aws:lambda:us-east-1:626567425764:function:authorization-service-dev-basicAuthorizer
-          method: GET
           request:
             parameters:
               querystrings:
@@ -56,6 +56,19 @@ resources:
           BlockPublicPolicy: false
           IgnorePublicAcls: false
           RestrictPublicBuckets: false
+        CorsConfiguration:
+          CorsRules:
+            - AllowedOrigins:
+                - "*"
+              AllowedHeaders:
+                - "*"
+              AllowedMethods:
+                - "GET"
+                - "PUT"
+                - "POST"
+                - "DELETE"
+                - "HEAD"
+              MaxAge: 3000
     S3BucketPolicy:
       Type: "AWS::S3::BucketPolicy"
       Properties:
@@ -73,3 +86,16 @@ resources:
                   - - "arn:aws:s3:::"
                     - Ref: "S3Bucket"
                     - "/*"
+    ApiGatewayRestApi:
+      Type: "AWS::ApiGateway::RestApi"
+      Properties:
+        Name: "import-service"
+    GatewayResponseDefault4XX:
+      Type: "AWS::ApiGateway::GatewayResponse"
+      Properties:
+        ResponseParameters:
+          gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+          gatewayresponse.header.Access-Control-Allow-Headers: "'*'"
+        ResponseType: "DEFAULT_4XX"
+        RestApiId:
+          Ref: "ApiGatewayRestApi"
